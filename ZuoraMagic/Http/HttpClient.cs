@@ -17,6 +17,14 @@ namespace ZuoraMagic.Http
     internal class HttpClient : IDisposable
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="HttpClient"/> class.
+        /// </summary>
+        public HttpClient()
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
+        }
+
+        /// <summary>
         ///     Abstraction method for performing a http request.
         /// </summary>
         /// <param name="request"></param>
