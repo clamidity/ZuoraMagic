@@ -37,7 +37,8 @@ namespace ZuoraMagic.Http
             namespaces.Add("api", ZuoraNamespaces.Request);
             namespaces.Add("xsi", ZuoraNamespaces.Type);
 
-            using (XmlWriter writer = doc.CreateNavigator().AppendChild())            {
+            using (XmlWriter writer = doc.CreateNavigator().AppendChild())
+            {
                 new XmlSerializer(request.GetType()).Serialize(writer, request, namespaces);
             }
 
