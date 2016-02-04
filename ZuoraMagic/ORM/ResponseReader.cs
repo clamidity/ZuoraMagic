@@ -32,6 +32,12 @@ namespace ZuoraMagic.ORM
                     RecordResult result = ReadSimpleResponse<RecordResult>(node, document);
                     response.Results.Add(result);
 
+                    // If any item in the collection doesn't succeed, response.success picks up the false and doesn't get overriden with a true
+                    if (response.Success)
+                    {
+                        response.Success = result.Success;
+                    }
+
                     if (!result.Success)
                     {
                         response.Errors.Add(result.Message);
@@ -41,6 +47,12 @@ namespace ZuoraMagic.ORM
             else
             {
                 response.Result = ReadSimpleResponse<RecordResult>(results[0], document);
+                response.Success = response.Result.Success;
+
+                if (!response.Result.Success)
+                {
+                    response.Errors.Add((response.Result.Message));
+                }
             }
 
             return response;
@@ -87,6 +99,11 @@ namespace ZuoraMagic.ORM
                 {
                     if (ns) name = "ns2:" + name;
                     string value = node.GetValue(name);
+
+                    if (name == "ns1:Message")
+                    {
+                        value = node.ChildNodes[0].GetValue(name);
+                    }
 
                     if (value == null)
                     {
